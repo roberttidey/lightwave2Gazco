@@ -124,7 +124,6 @@ if __name__ == "__main__":
 	import lwrf2Gazco
 	import logging
 
-	#Edit the pins used and commands to be employed here
 	RX=24
 	TX=25
 	LWRF_DEVICE_ON   = "1F71999990"
@@ -147,7 +146,11 @@ if __name__ == "__main__":
 	while True:
 		if rx.ready():
 			msg = rx.get()
-			logging.info('Received msg %s', msg)
+			if len(msg) >= 10:
+				msg1 = 'r:' + chr(msg[9]) + ' d:' + chr(msg[2]) + ' c:' + chr(msg[3]) + ' p:' + chr(msg[0]) + chr(msg[1])
+			else:
+				msg1 = 'bad message'
+			logging.info('Received msg %s %s', msg, msg1)
 			if msg == LWRF_DEVICE_ON:
 				logging.info('Wait for lightwave tx to stop')
 				time.sleep(3)
